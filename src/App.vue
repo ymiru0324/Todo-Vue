@@ -42,28 +42,55 @@ export default {
     const todos = ref([]);
     const error = ref('');
 
-    const addTodo = (todo) => {
+    const getTodos = async () => {
+      try {
+        const res = await axios.get('http://localhost:3000/todos');
+        todos.value = res.data;
+      } catch (err) {
+        error.value = 'Something went wrong.';
+      }
+    };
+
+    getTodos();
+
+    const addTodo = async (todo) => {
       // DB에 Todo 저장
       error.value = '';
-      axios.post('http://localhost:3000/todos', {
-        subject: todo.subject,
-        completed: todo.completed,
-      }).then(res => {
-        console.log(res);
+      try {
+        const res = await axios.post('http://localhost:3000/todos', {
+          subject: todo.subject,
+          completed: todo.completed,
+        });
         todos.value.push(res.data);
-      }).catch(err => {
+      } catch (err) {
+        error.value = 'Something went wrong.';
+      }
+    };
+
+    const deleteTodo = async (index) => {
+      error.value = '';
+      const id = todos.value[index].id;
+      try {
+        await axios.delete('http://localhost:3000/todos/' + id);
+        todos.value.splice(index, 1);
+      } catch (err) {
         console.log(err);
         error.value = 'Something went wrong.';
-      });
+      }
     };
-
-    const toggleTodo = (index) => {
-      console.log(todos.value[index]);
-      todos.value[index].completed = !todos.value[index].completed;
-    };
-
-    const deleteTodo = (index) => {
-      todos.value.splice(index, 1);
+    
+    const toggleTodo = async (index) => {
+      error.value = '';
+      const id = todos.value[index].id;
+      try {
+        await axios.patch('http://localhost:3000/todos/' + id, {
+          completed: !todos.value[index].completed
+        });
+        todos.value[index].completed = !todos.value[index].completed;
+      } catch (err) {
+        console.log(err);
+        error.value = 'Something went wrong.';
+      }
     };
 
     const searchText = ref('');
