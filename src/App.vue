@@ -1,87 +1,51 @@
 <template>
   <div class="container">
-      <h2>To-Do List</h2>
-    <form @submit.prevent="onSubmit">
-      <div class="d-flex">
-        <div class="flex-grow-1 mr-2">
-          <input 
-            class="form-control"
-            type="text"
-            v-model="todo"
-            placeholder="Type new to-do"
-          >
-        </div>
-        <div>
-          <button 
-            class="btn btn-primary"
-            type="submit"
-          >
-            Add
-          </button>
-        </div>
-      </div>
-      <div v-show="hasError" style="color: red">
-        This field cannot be empty
-      </div>
-    </form>
-    <div 
-      v-for="todo in todos"
-      :key="todo.id"
-      class="card mt-2"
-    >
-      <div class="card-body p-2">
-        <div class="form-check">
-          <input 
-            class="form-check-input" 
-            type="checkbox"
-            v-model="todo.completed"
-          >
-          <label 
-            class="form-check-label"
-            :class="{ todo: todo.completed }"
-          >
-            {{ todo.subject }}
-          </label>
-        </div>
-      </div>
+    <h2>To-Do List</h2>
+    <TodoSimpleForm @add-todo="addTodo" />
+    <div v-if="!todos.length">
+      추가된 Todo가 없습니다.
     </div>
+    <TodoList 
+      :todos="todos" 
+      @toggle-todo="toggleTodo"
+      @delete-todo="deleteTodo"
+    />
   </div>
 </template>
 
 <script>
 import { ref } from 'vue';
+import TodoSimpleForm from './components/TodoSimpleForm.vue';
+import TodoList from './components/TodoList.vue';
 
 export default {
+  components: {
+    TodoSimpleForm,
+    TodoList
+  },
+
   setup() {
-    const todo = ref('');
     const todos = ref([]);
-    const hasError = ref(false);
-    const todoStyle = {
-      textDecoration: 'line-through',
-      color: 'gray'
+
+    const addTodo = (todo) => {
+      todos.value.push(todo);
     };
 
-    const onSubmit = () => {
-      if (todo.value === ''){
-        hasError.value = true;
-      } else {
-        todos.value.push({
-          id: Date.now(),
-          subject: todo.value,
-          completed: false,
-        });
-        hasError.value = false;
-        todo.value ='';
-      }
+    const toggleTodo = (index) => {
+      console.log(todos.value[index]);
+      todos.value[index].completed = !todos.value[index].completed;
     };
 
+    const deleteTodo = (index) => {
+      todos.value.splice(index, 1);
+    };
 
     return {
-      todo,
       todos,
-      onSubmit,
-      hasError,
-      todoStyle,
+      addTodo,
+      deleteTodo,
+      toggleTodo,
+      
     };
   }
 }
