@@ -1,10 +1,14 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Todo-Vue.js</a>
+    <router-link class="navbar-brand" :to="{ name: 'Home' }">
+      Todo-Vue.js
+    </router-link>
 
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="/todos">Todos</a>
+        <router-link class="nav-link" :to="{ name: 'Todos' }">
+          Todos
+        </router-link>
       </li>
     </ul>
   </nav>
