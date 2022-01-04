@@ -77,33 +77,13 @@
     },
     {
       "subject": "gwe",
-      "completed": false,
+      "completed": true,
       "id": 16
     },
     {
-      "subject": "d",
-      "completed": false,
+      "subject": "d123",
+      "completed": true,
       "id": 17
-    },
-    {
-      "subject": "asd",
-      "completed": false,
-      "id": 18
-    },
-    {
-      "subject": "q",
-      "completed": false,
-      "id": 19
-    },
-    {
-      "subject": "w",
-      "completed": false,
-      "id": 20
-    },
-    {
-      "subject": "e",
-      "completed": false,
-      "id": 21
     }
   ]
 }
