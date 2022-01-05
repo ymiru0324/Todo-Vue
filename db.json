@@ -57,18 +57,13 @@
     },
     {
       "subject": "g",
-      "completed": false,
+      "completed": true,
       "id": 12
     },
     {
       "subject": "df",
-      "completed": false,
+      "completed": true,
       "id": 13
-    },
-    {
-      "subject": "gd",
-      "completed": false,
-      "id": 14
     },
     {
       "subject": "gwe",
